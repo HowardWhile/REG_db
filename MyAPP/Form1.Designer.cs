@@ -35,6 +35,7 @@ namespace MyAPP
             this.btn_remove2 = new System.Windows.Forms.Button();
             this.btn_load1 = new System.Windows.Forms.Button();
             this.btn_load2 = new System.Windows.Forms.Button();
+            this.btn_clear = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btn_save1
@@ -103,11 +104,23 @@ namespace MyAPP
             this.btn_load2.UseVisualStyleBackColor = true;
             this.btn_load2.Click += new System.EventHandler(this.btn_load2_Click);
             // 
+            // btn_clear
+            // 
+            this.btn_clear.Location = new System.Drawing.Point(200, 94);
+            this.btn_clear.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btn_clear.Name = "btn_clear";
+            this.btn_clear.Size = new System.Drawing.Size(87, 31);
+            this.btn_clear.TabIndex = 6;
+            this.btn_clear.Text = "Clear All";
+            this.btn_clear.UseVisualStyleBackColor = true;
+            this.btn_clear.Click += new System.EventHandler(this.btn_clear_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(315, 192);
+            this.Controls.Add(this.btn_clear);
             this.Controls.Add(this.btn_load2);
             this.Controls.Add(this.btn_load1);
             this.Controls.Add(this.btn_remove2);
@@ -131,6 +144,7 @@ namespace MyAPP
         private System.Windows.Forms.Button btn_remove2;
         private System.Windows.Forms.Button btn_load1;
         private System.Windows.Forms.Button btn_load2;
+        private System.Windows.Forms.Button btn_clear;
     }
 }
 

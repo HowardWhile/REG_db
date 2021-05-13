@@ -6,36 +6,40 @@ namespace AIM.Modules
     class REG_db
     {
         private const string k_root_path = @"HKEY_CURRENT_USER\";
-        private string root_path = "";
-        private string current_path = "";
+        private string full_path = ""; // HKEY_CURRENT_USER\Software\CompanyName\AppName
+        private string current_path = ""; // Software\CompanyName\AppName
+        private string home_path = ""; // Software\CompanyName\
+        private string app_name = "";
         public REG_db(string iAppName = "", string iCompanyName = "")
         {
-            string company_name = iCompanyName == "" ? Application.CompanyName : iCompanyName;
-            string app_name = iAppName == "" ? Application.ProductName : iAppName;
+            this.app_name = iAppName == "" ? Application.ProductName : iAppName;
 
+            string company_name = iCompanyName == "" ? Application.CompanyName : iCompanyName;
 
             if (company_name == app_name || company_name == "")// company name is empty
             {
                 this.current_path = $"SOFTWARE\\{app_name}\\";
+                this.home_path = $"SOFTWARE\\";
             }
             else
             {
                 this.current_path = $"SOFTWARE\\{company_name}\\{app_name}\\";
+                this.home_path = $"SOFTWARE\\{company_name}\\";
             }
 
-            this.root_path = k_root_path + this.current_path;
+            this.full_path = k_root_path + this.current_path;
         }
 
         public void Save(string iName, object iValue)
         {
-            System.Console.WriteLine($"[Save] {this.root_path}\\{iName}");
-            Registry.SetValue(this.root_path, iName, iValue);
+            System.Console.WriteLine($"[Save] {this.full_path}\\{iName}");
+            Registry.SetValue(this.full_path, iName, iValue);
         }
 
         public object Load(string iName, object iDefault = null)
         {
-            System.Console.WriteLine($"[Load] {this.root_path}\\{iName}");
-            return Registry.GetValue(this.root_path, iName, iDefault);
+            System.Console.WriteLine($"[Load] {this.full_path}\\{iName}");
+            return Registry.GetValue(this.full_path, iName, iDefault);
         }
 
         public void Delete(string iName)
@@ -59,9 +63,8 @@ namespace AIM.Modules
 
         public void DeleteAll()
         {
-            //RegistryKey key = Registry.CurrentUser.OpenSubKey(this.current_path, true);
-
-
+            RegistryKey key = Registry.CurrentUser.OpenSubKey(this.home_path, true);
+            key.DeleteSubKeyTree(this.app_name);
         }
     }
 }

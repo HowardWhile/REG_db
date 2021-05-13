@@ -67,5 +67,10 @@ namespace MyAPP
             var oValue = this.dbTool.Load(this.name_para2);
             System.Console.WriteLine(oValue);
         }
+
+        private void btn_clear_Click(object sender, EventArgs e)
+        {
+            this.dbTool.DeleteAll();
+        }
     }
 }
