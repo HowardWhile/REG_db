@@ -5,11 +5,8 @@ namespace AIM.Modules
 {
     class REG_db
     {
-        private const string k_root_path = @"HKEY_CURRENT_USER\";
-        private string full_path = ""; // HKEY_CURRENT_USER\Software\CompanyName\AppName
-        private string current_path = ""; // Software\CompanyName\AppName
-        private string home_path = ""; // Software\CompanyName\
-        private string app_name = "";
+        private const string k_root_path = @"HKEY_CURRENT_USER\"; // The path does not require administrator permissions
+
         public REG_db(string iAppName = "", string iCompanyName = "")
         {
             this.app_name = iAppName == "" ? Application.ProductName : iAppName;
@@ -64,7 +61,22 @@ namespace AIM.Modules
         public void DeleteAll()
         {
             RegistryKey key = Registry.CurrentUser.OpenSubKey(this.home_path, true);
-            key.DeleteSubKeyTree(this.app_name);
+
+            try
+            {
+                key.DeleteSubKeyTree(this.app_name);
+            }
+            catch (System.Exception ex)
+            {
+                System.Console.WriteLine(
+                 $">>[{ex.Message}]\r\n" +
+                 $">>{ex}");
+            }
         }
+
+        private string full_path = ""; // HKEY_CURRENT_USER\Software\CompanyName\AppName
+        private string current_path = ""; // Software\CompanyName\AppName
+        private string home_path = ""; // Software\CompanyName\
+        private string app_name = "";
     }
 }
