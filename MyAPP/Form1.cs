@@ -20,31 +20,52 @@ namespace MyAPP
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            AIM.Modules.REG_db dbTool = new AIM.Modules.REG_db();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        AIM.Modules.REG_db dbTool = new AIM.Modules.REG_db();
+
+
+        string name_para1 = "random_value";
+        string name_para2 = "timestamp";
+
+        private void btn_save1_Click(object sender, EventArgs e)
         {
-            RegistryKey key = Registry.CurrentUser.OpenSubKey("Software", true);
+            System.Random rand = new Random();
 
-            key.CreateSubKey("AppName");
-            key = key.OpenSubKey("AppName", true);
+            int value = rand.Next();
 
+            this.dbTool.Save(this.name_para1, value);
 
-            key.CreateSubKey("AppVersion");
-            key = key.OpenSubKey("AppVersion", true);
-
-            key.SetValue("yourkey", "yourvalue");
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void btn_save2_Click(object sender, EventArgs e)
         {
-            string Timestamp = DateTime.Now.ToString("dd-MM-yyyy");
+            string value = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss.fff");
 
-            string key = "HKEY_CURRENT_USER\\SOFTWARE\\" + Application.ProductName + "\\" + Application.ProductVersion;
-            string valueName = "Trial Period";
+            this.dbTool.Save(this.name_para2, value);
 
-            Microsoft.Win32.Registry.SetValue(key, valueName, Timestamp, Microsoft.Win32.RegistryValueKind.String);
+        }
+
+        private void btn_remove1_Click(object sender, EventArgs e)
+        {
+            this.dbTool.Delete(this.name_para1);
+        }
+
+        private void btn_remove2_Click(object sender, EventArgs e)
+        {
+            this.dbTool.Delete(this.name_para2);
+        }
+
+        private void btn_load1_Click(object sender, EventArgs e)
+        {
+            var oValue = this.dbTool.Load(this.name_para1);
+            System.Console.WriteLine(oValue);
+        }
+
+        private void btn_load2_Click(object sender, EventArgs e)
+        {
+            var oValue = this.dbTool.Load(this.name_para2);
+            System.Console.WriteLine(oValue);
         }
     }
 }
